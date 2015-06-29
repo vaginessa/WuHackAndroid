@@ -11,6 +11,7 @@
 
     <style name="MainActivityTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark</item>
     </style>
 
     <style name="BaseTheme" parent="Theme.AppCompat.Light">

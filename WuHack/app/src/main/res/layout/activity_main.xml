@@ -14,15 +14,15 @@
        android:layout_height="wrap_content"
        android:layout_marginBottom="10dp"
        android:id="@+id/spinnerOption"
-       android:text="Optionen">
+       >
 
    </Spinner>
 
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinnerTeacher"
-        android:text="Lehrer"
+        android:id="@+id/spinnerAll"
+        android:layout_marginBottom="10dp"
         >
     </Spinner>
 
