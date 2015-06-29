@@ -1,11 +1,23 @@
 package hackwu.wuhack;
 
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by Paul on 29.06.2015.
  */
 public class ScheduleModel
 {
-    /*private Lesson[][][] timetable = new Lesson[32][5][12];
+    private Lesson[][][] timetable = new Lesson[32][5][12];
     private List<String> kuerzel = new ArrayList<>(90);
     private List<String> classes = new ArrayList<>(30);
     private List<String> classrooms = new ArrayList<>(50);
@@ -33,7 +45,7 @@ public class ScheduleModel
             return null;
         }
 
-        HTMLFontElement f = (HTMLFontElement) d.getElementsByTagName("font").item(1);
+        Node f = d.getElementsByTagName("font").item(1);
 
         String klasse = removeLineBreak(f.getTextContent());
 
@@ -44,15 +56,15 @@ public class ScheduleModel
 
         NodeList tables = d.getElementsByTagName("table");
 
-        HTMLTableElement table = (HTMLTableElement) tables.item(0);
+        Node table =  tables.item(0);
 
-        HTMLCollection rows = table.getRows();
+        NodeList rows = table.getChildNodes();
 
         for (int i = 1; i < rows.getLength(); i = i + 2)
         {
-            HTMLTableRowElement row = (HTMLTableRowElement) rows.item(i);
+            Node row = rows.item(i);
 
-            HTMLCollection cells = row.getCells();
+            NodeList cells = row.getChildNodes();
 
             for (int j = 1; j < cells.getLength(); j++)
             {
@@ -65,15 +77,15 @@ public class ScheduleModel
                     boolean isLesson = true;
 
 
-                    HTMLTableCellElement cell = (HTMLTableCellElement) cells.item(j);
+                    Node cell =  cells.item(j);
 
-                    HTMLTableElement inTable = (HTMLTableElement) cell.getChildNodes().item(0);
-                    HTMLCollection inRows = inTable.getRows();
+                    Node inTable = cell.getChildNodes().item(0);
+                    NodeList inRows = inTable.getChildNodes();
 
                     for (int k = 0; k < inRows.getLength(); k++)
                     {
-                        HTMLTableRowElement inRow = (HTMLTableRowElement) inRows.item(k);
-                        HTMLCollection inCells = inRow.getCells();
+                        Node inRow =  inRows.item(k);
+                        NodeList inCells = inRow.getChildNodes();
 
                         if (k == 0)
                         {
@@ -126,7 +138,7 @@ public class ScheduleModel
                         }
                     }
 
-                    for (int k = 0; k < (Integer.parseInt(cell.getAttribute("rowspan")) / 2); k++)
+                    for (int k = 0; k < (Integer.parseInt(cell.getAttributes().getNamedItem("rowspan").getTextContent()) / 2); k++)
                     {
                         int spalte = j - 1 + doneCells[(i - 1) / 2];
                         int zeile = (i - 1) / 2 + k;
@@ -247,42 +259,34 @@ public class ScheduleModel
         return table;
     }
 
-    public void loadAllLessons(WebEngine we, int week)
+    public void loadAllLessons(final WebView wv, final int week)
     {
         classes.clear();
         kuerzel.clear();
         classrooms.clear();
 
-        we.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>()
-        {
-
+        wv.setWebViewClient(new WebViewClient() {
             int counter = 1;
 
             @Override
-            public void changed(ObservableValue<? extends Thread.State> observable, Thread.State oldValue, Thread.State newValue)
-            {
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
 
-                if (newValue == Thread.State.SUCCEEDED)
+                if (counter < timetable.length - 1)
                 {
-                    timetable[counter - 1] = analyzeDoc(we.getDocument(), week, counter);
+                    counter++;
+                    String next_url = "https://supplierplan.htl-kaindorf.at/supp_neu/" + (week) + "/c/c" + String.format("%05d", counter) + ".htm";
+                    wv.loadUrl(next_url);
 
-                    if (counter < timetable.length - 1)
-                    {
-                        counter++;
-                        String url = "https://supplierplan.htl-kaindorf.at/supp_neu/" + (week) + "/c/c" + String.format("%05d", counter) + ".htm";
-                        we.load(url);
-
-                    }
-                    else
-                    {
-                        //WebBrowserTest.printAllLessons(timetable);
-                        we.getLoadWorker().stateProperty().removeListener(this);
-                    }
+                }
+                else
+                {
+                    wv.setWebViewClient(null);
                 }
             }
         });
 
-        we.load("https://supplierplan.htl-kaindorf.at/supp_neu/" + (week) + "/c/c" + String.format("%05d", 1) + ".htm");
+        wv.loadUrl("https://supplierplan.htl-kaindorf.at/supp_neu/" + (week) + "/c/c" + String.format("%05d", 1) + ".htm");
     }
 
     private boolean contains(String[] a, String k)
@@ -345,5 +349,5 @@ public class ScheduleModel
     public List<String> getClassrooms()
     {
         return classrooms;
-    }*/
+    }
 }
