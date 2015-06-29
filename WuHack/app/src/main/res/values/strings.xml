@@ -1,6 +1,27 @@
 <resources>
     <string name="app_name">WuHack</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="spinnerOptionsArray">
+        <item id="0">Klassen</item>
+        <item id="1">Lehrer</item>
+        <item id="2">Räume</item>
+    </string-array>
+    <string-array name="spinnerTeacherArray">
+        <item>WU</item>
+        <item>PO</item>
+        <item>ED</item>
+    </string-array>
+    <string-array name="spinnerRaumArray">
+        <item>3CHIF</item>
+        <item>PHYSIK Raum</item>
+        <item>1BHIF</item>
+    </string-array>
+    <string-array name="spinnerKlassenArray">
+        <item>1CHIF</item>
+        <item>2CHIF</item>
+        <item>3CHIF</item>
+    </string-array>
+    <string name="username">Username</string>
+    <string name="passwd">Password</string>
 </resources>
