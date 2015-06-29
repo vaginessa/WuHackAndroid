@@ -4,17 +4,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import java.net.Authenticator;
 
 
 public class MainActivity extends ActionBarActivity
@@ -35,6 +30,25 @@ public class MainActivity extends ActionBarActivity
         spinnerAll = (Spinner) findViewById(R.id.spinnerAll);
         btSearch = (Button) findViewById(R.id.btSearch);
         wvLessons = (WebView) findViewById(R.id.wvLessons);
+
+        new AlertDialog.Builder(MainActivity.this)
+
+                .setCancelable(false)
+                .setTitle("Bitte einloggen")
+                .setMessage("Username und Password eingeben")
+
+                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_menu_send)
+                .show();
 
         ArrayAdapter<CharSequence> adapterOptions = ArrayAdapter.createFromResource(this,
                 R.array.spinnerOptionsArray, android.R.layout.simple_spinner_dropdown_item);
@@ -82,6 +96,10 @@ public class MainActivity extends ActionBarActivity
             @Override
             public void onClick(View v)
             {
+                System.out.println("YOLOOLOLOLOLOLOL");
+
+
+                /*
                 LayoutInflater li = LayoutInflater.from(getApplicationContext());
                 View alertDialogView = li.inflate(R.layout.alertdialog, null);
 
@@ -115,8 +133,8 @@ public class MainActivity extends ActionBarActivity
                                     }
                                 });
                 AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-
+                alertDialog.show();*/
+                /*
                 if (!uname.equals("") && !(password.length == 0))
                 {
                     Authenticator.setDefault(new AuthenticatorTest(uname, password));
@@ -125,7 +143,7 @@ public class MainActivity extends ActionBarActivity
                 {
                     Toast.makeText(getApplicationContext(), "Please login", Toast.LENGTH_SHORT).show();
                 }
-
+    */
             }
         });
 
